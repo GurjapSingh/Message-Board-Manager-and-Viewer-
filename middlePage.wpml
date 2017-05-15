@@ -1,0 +1,1 @@
+.h(text="Please enter stream[s] to view",size=3).d().b(name="add/remove author",link="author.php").b(name="make a post",link="makePost.php").b(name="go home to index",link="index.php").d().t(text="your subscribed streams: ").i(action="middlePage.php",text="stream:",name="pickedStream",value="senor")

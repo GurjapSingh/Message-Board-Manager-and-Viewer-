@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+
+<style>
+form{
+display:inline
+}
+</style>
+<body>
+
+<h3 >Please enter the stream and post information</h3>
+<hr>
+<form action="author.php" method="POST" >
+<input type="hidden" name="univUserName" value="replaceWithUserName"/>
+<input type="hidden" name="univPostCount" value="replaceWithPostCount"/>
+<input type="hidden" name="univOrderMode" value="replaceWithOrderMode"/>
+<input type="hidden" name="univStreamChoice" value="replaceWithStreamChoice"/>
+<input type="submit" name="add/removeNauthor" value="add/remove author"/>
+</form>
+<form action="index.php" method="POST" >
+<input type="hidden" name="univUserName" value="replaceWithUserName"/>
+<input type="hidden" name="univPostCount" value="replaceWithPostCount"/>
+<input type="hidden" name="univOrderMode" value="replaceWithOrderMode"/>
+<input type="hidden" name="univStreamChoice" value="replaceWithStreamChoice"/>
+<input type="submit" name="goNhomeNtoNindex" value="go home to index"/>
+</form>
+<form action="middlePage.php" method="POST" >
+<input type="hidden" name="univUserName" value="replaceWithUserName"/>
+<input type="hidden" name="univPostCount" value="replaceWithPostCount"/>
+<input type="hidden" name="univOrderMode" value="replaceWithOrderMode"/>
+<input type="hidden" name="univStreamChoice" value="replaceWithStreamChoice"/>
+<input type="submit" name="viewNprogram" value="view program"/>
+</form>
+<hr>
+<form action="makePost.php" method="POST" bigBox="true"  >
+<input type="hidden" name="univUserName" value="replaceWithUserName"/>
+<input type="hidden" name="univPostCount" value="replaceWithPostCount"/>
+<input type="hidden" name="univOrderMode" value="replaceWithOrderMode"/>
+<input type="hidden" name="univStreamChoice" value="replaceWithStreamChoice"/>
+<div><label>stream  <input name="streamName" value="senor"></label></div>
+<div><label>text  <textarea rows="4" cols="50" name="textAdded" value="sample text">sample text</textarea></label></div>
+<input type="submit" name = "submitButton" value="Submit" />
+</form>
+</body>
+

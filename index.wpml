@@ -1,0 +1,1 @@
+.h(text="Please enter your login information",size=3).d().b(name="add/remove author",link="author.php").b(name="make a post",link="makePost.php").b(name="view program",link="middlePage.php").d().i(action="index.php",text="Username",name="userName",value="gunther")

@@ -1,0 +1,2 @@
+.h(text="Please enter the streams you would like to add to",size=3).d().b(name="go home to index",link="index.php").b(name="make a post",link="makePost.php").b(name="view program",link="middlePage.php").d()
+.r(action="author.php",name="choice",value="add",value="remove").i(action="author.php",text="Stream",name="streamName",value="senor")
