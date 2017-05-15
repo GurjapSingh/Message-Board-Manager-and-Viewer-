@@ -31,26 +31,13 @@ struct PostEntry {
     }
 void PostEntryreadInputccc(struct PostEntry * tempStruct,char* textReader, char* streamName, char* myName){
         int usrAccessCount = 0;
-        /*printf("stream: %s\n",streamName);*/
+
         usrAccessCount = userAccess(myName, streamName);
         usrAccessCount++;
-        /*printf("usrAccessCount is %d\n", usrAccessCount);*/
-        /*if (usrAccessCount == -1 || usrAccessCount == -2) {
-          if (usrAccessCount == -1) {
-            printf("this stream does not exist but its files have now been created\n");
-            strcpy(textReader, "noExist");
-            return;
-          }
-          else{
-            printf("error: '%s' does not have permission to post to '%s'.\nPlease use addauthor to gain access to it.\n", myName, streamName);
-            exit(1);
-          }
-        }*/
-        /*printf("entererd text: %s\n", textReader);*/
-         if (textReader[strlen(textReader)-1] == '\n') {
+
+        if (textReader[strlen(textReader)-1] == '\n') {
             textReader[strlen(textReader)-1] = '\0';
         }
-        /*printf("streamy is %s\n", streamName);*/
 
     }
 void PostEntrygetTimeDatesu(struct PostEntry * tempStruct,struct userPost** myUserPost)
@@ -120,7 +107,7 @@ void PostEntrygetTimeDatesu(struct PostEntry * tempStruct,struct userPost** myUs
             hour = timeParts->tm_hour;
             strcpy(amOrPm, "am");
         }
-        /*printf("%s %d, %d %d:%.2d %s\n", month, date, year, hour,minute, amOrPm);*/
+
 
         char dateString[100];
         sprintf(dateString,"%s %d, %d %d:%.2d:%.2d %s", month, date, year, hour,minute, seconds,amOrPm);
@@ -160,11 +147,9 @@ int main(int argc, char const *argv[])
               textReader[q]='\n';
           }
       }
-      /*printf("name: %s stream: %s text: %s\n", myName,streamName,textReader);*/
-    }
-    /*printf("username is %s\n", myName);*/
 
-    /*printf("\n");*/
+    }
+
 struct PostEntry myPostEntry;
 
 constructorPostEntry(&myPostEntry);
@@ -178,25 +163,25 @@ constructorPostEntry(&myPostEntry);
             strcpy(temp,"");
             strncpy(temp, textReader, i);
             temp[i]='\0';
-            /*printf("temp: %s\n", temp);*/
+
             strcat(temp,doublequote);
-            /*printf("strcating\n");*/
+
             char after[(int)strlen(textReader) - i + 3];
             strcpy(after,"");
             strcpy(after, textReader+i+1);
-            /*printf("after: %s\n", after);*/
+
             strcpy(textReader,temp);
             strcat(textReader,after);
             i++;
         }
     }
-    /*printf("stream name is : %s\n", textReader);*/
+
     struct userPost* myUserPost;
     myUserPost = (struct userPost*) malloc(sizeof(struct userPost));
     myPostEntry.PostEntryformatEntrysuccc(&myPostEntry,&myUserPost, myName, streamName, textReader);
 
 
-    /*printf("now printing: \n%s", textReader);*/
+    
 
 
     myPostEntry.PostEntrygetTimeDatesu(&myPostEntry,&myUserPost);

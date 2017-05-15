@@ -12,11 +12,6 @@
         $noLink = 1;
     }
 
-    /*
-    $outputCode = file("middlePage.html")//"./translator middlePage.wpml";
-    $userName = "gurjapfilesinghp";
-    $samplestring = "jkjkjkjkjk";
-    */
 
 
     $command = "./translator middlePage.wpml";
@@ -37,19 +32,19 @@
             foreach ($outputCode as $codeLine) {
                 if (strstr($codeLine,"replaceWithUserName") != NULL) {
                     $codeLine = str_replace("replaceWithUserName", $indUserName, $codeLine);
-                    echo $codeLine;//"<input type=\"hidden\" name=\"actionResult\" value=\"" .$userName. "\"/>";
+                    echo $codeLine;
                 }
                 else if (strstr($codeLine,"replaceWithPostCount") != NULL) {
                     $codeLine = str_replace("replaceWithPostCount", $indPostCount, $codeLine);
-                    echo $codeLine;//"<input type=\"hidden\" name=\"actionResult\" value=\"" .$userName. "\"/>";
+                    echo $codeLine;
                 }
                 else if (strstr($codeLine,"replaceWithOrderMode") != NULL) {
                     $codeLine = str_replace("replaceWithOrderMode", $indOrderMode, $codeLine);
-                    echo $codeLine;//"<input type=\"hidden\" name=\"actionResult\" value=\"" .$userName. "\"/>";
+                    echo $codeLine;
                 }
                 else if (strstr($codeLine,"replaceWithStreamChoice") != NULL) {
                     $codeLine = str_replace("replaceWithStreamChoice", $indStreamChoice, $codeLine);
-                    echo $codeLine;//"<input type=\"hidden\" name=\"actionResult\" value=\"" .$userName. "\"/>";
+                    echo $codeLine;
                 }
                 else if (strstr($codeLine,"your subscribed streams:")!= NULL) {
                     if ($noLink == 1) {
@@ -77,7 +72,6 @@
                     else {
                         echo $codeLine . "<br><br>";
                         $returnVal = shell_exec("./view.py ".escapeshellarg($indUserName). " ".escapeshellarg("printingAvailableStreams"). " n  0 ".escapeshellarg("dateFirst"));
-                        // $returnVal = shell_exec("./view.py ".escapeshellarg($userName). " ".escapeshellarg("printingAvailableStreams"). " n  0";
                         echo $returnVal . "<br><br>";
 
                     }
@@ -85,8 +79,7 @@
                 else {
                     echo $codeLine;
                 }
-                /*else if (strstr($codeLine,"<p>Enter post here: ") == NULL)
-                echo $codeLine;*/
+                
             }
 
             echo "<br><br><br><br>logged in as: $indUserName"."<br>";

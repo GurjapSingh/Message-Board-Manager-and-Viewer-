@@ -8,13 +8,10 @@
     if($_POST['submitButton'] == "Submit") {
 
         if (($_POST['streamName'] != "") && $_POST['textAdded'] != "") {
-            // print $_POST['userName'];
-            // print $_POST['streamName'];
+
             $streamTest = $_POST['streamName'];
             $textContent = $_POST['textAdded'];
-            // printf("displaying contet for person $indUserName.\n");
-
-            // printf("./post $indUserName $streamTest ". escapeshellarg($textContent));
+            
             $returnVal = shell_exec("./post ". escapeshellarg($indUserName) . " ".escapeshellarg($streamTest)." ". escapeshellarg($textContent));
             echo $returnVal;
         }
@@ -51,9 +48,9 @@
             }
             echo "<br><br><br><br>logged in as: $indUserName"."<br>";
         }
-        
+
     }
 
 
-    
+
 ?>

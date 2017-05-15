@@ -10,17 +10,14 @@
 
             $streamTest = $_POST['streamName'];
 
-            // printf("entered user:$indUserName, entered stream: $streamTest ..\n");
 
             switch ($_POST['choice']) {
                 case "add":
-                    // printf("here: addAuthor $indUserName 0 $streamTest\n");
                     $returnVal = shell_exec("./addauthor ". escapeshellarg($indUserName)." q ". escapeshellarg($streamTest));
                     echo $returnVal;
                     break;
 
                 case "remove":
-                    // printf("addAuthor $indUserName -r $streamTest\n");
                     $returnVal = shell_exec("./addauthor ". escapeshellarg($indUserName)." -r ".escapeshellarg("$streamTest"));
                     echo $returnVal;
                     break;

@@ -23,7 +23,6 @@ void replaceAttribute(char * secString,int offsetIndex)
     if (isRun == true)
     {
         int commaIndex = indexReturn(secString+offsetIndex,",")+offsetIndex;
-        /*printf("comma at %d\n", commaIndex);*/
         {
             int i = offsetIndex;
             for (i = offsetIndex; i <= commaIndex; i++)
@@ -38,7 +37,6 @@ void replaceAttribute(char * secString,int offsetIndex)
         }
     }
 
-        /*printf("2new from function secString %s\n", secString);*/
 }
 
 char* spareAttributes(char * secString)
@@ -59,7 +57,6 @@ char* spareAttributes(char * secString)
                 if (secString[i] != '&' && secString[i] != '%' && firstCommaFound == true)
                 {
                     value[valueCount++] = secString[i];
-                    /*printf("%c", secString[i]);*/
                 }
 
             }
@@ -121,7 +118,6 @@ char* argReturn(char checkStr[], char findStr[])
             }
         }
     }
-    /*printf("returning: %s\n", value);*/
     return value;
 }
 int main(int argc, char const *argv[]) {
@@ -139,7 +135,6 @@ int main(int argc, char const *argv[]) {
 
     if(argv[1] == NULL) /* error if no file path is specified */
     {
-        /*printf("\nError: You didn't specify path to level file\n");*/
 
         return -1;
     }
@@ -154,10 +149,7 @@ int main(int argc, char const *argv[]) {
     }
     strcpy(Strings[c++].string, "<!DOCTYPE html>\n");
     strcpy(Strings[c++].string, "<style>\nform{\ndisplay:inline\n}\n</style>");
-    /*strcpy(Strings[c++].string, "form{");*/
-    /*strcpy(Strings[c++].string, "display:inline");*/
-    /*strcpy(Strings[c++].string, "}");*/
-    /*strcpy(Strings[c++].string, "</style>");*/
+
     strcpy(Strings[c++].string, "<body>\n");
     char * token = NULL;
     char secString[256];
@@ -166,7 +158,7 @@ int main(int argc, char const *argv[]) {
         int formOpen = 0; /* 1 = open it, 2 = opened */
         int formClose = 0; /* 1 = close it, 2 = closed */
         int universalCombo = 0;
-        /*printf("tempArray to analyze: %s\n", tempArray);*/
+
         if (strstr(tempArray, ".r") != NULL && strstr(tempArray,".i") != NULL) {
             comboForm = true;
             formOpen = 1;
@@ -180,12 +172,12 @@ int main(int argc, char const *argv[]) {
             else if (comboForm == true && strstr(token,".i") != NULL && strstr(token,".b") == NULL) {
                 formClose = 1;
             }
-            /*printf("token to analyze: %s\n", token);*/
+
 
             /*                        Heading Tag                   */
             if (token[1] == 'h') {
                 strcpy(secString,token);
-                /*printf("token h: %s\n", secString);*/
+
                 char * textStr;
                 char size = '3';
                 char openTag[6];
@@ -198,13 +190,13 @@ int main(int argc, char const *argv[]) {
                     size = secString[wordIndex+5];
                     openTag[2] = size;
                     closeTag[3] = size;
-                    /*printf("size: %c\n", size);*/
 
-                    if (strstr(secString+wordIndex,",") != NULL) /*IMPORTANT*/
+
+                    if (strstr(secString+wordIndex,",") != NULL)
                         replaceAttribute(secString,wordIndex);
 
                     else{
-                        /*printf("welcome\n");*/
+
                         noExtraTag(secString,wordIndex, wordIndex + 5);
                     }
                 }
@@ -219,23 +211,14 @@ int main(int argc, char const *argv[]) {
                     else
                         noExtraTag(secString,textStrIndex,textStrIndex + ((int)strlen(textStr)) + 6);
 
-
-                    /*//printf("textArgument: %s\n", textStr);
-                    if (textStr[strlen(textStr)] == '\0') {
-                        //printf("null terminator present\n");
-                    }
-                    else
-                        //printf("char: %c\n", textStr[strlen(textStr)-1]);
-                    */
                 }
                 else {
                     textStr = malloc(10 * sizeof(char));
                     strcpy(textStr,"Heading");
                 }
-                /*printf("textArgument: %s\n", textStr);*/
-                /*get spare input*/
+
                 char * returnedSpares = spareAttributes(secString);
-                /*printf("spare Attributes: %s\n", returnedSpares);*/
+
                 char extraElements[150] = "";
                 strcpy(extraElements,returnedSpares);
                 free(returnedSpares);
@@ -249,20 +232,20 @@ int main(int argc, char const *argv[]) {
                         }
                     }
                 }
-                /*printf("%s\n", extraElements);*/
+
                 strcpy(Strings[c].string, openTag);
                 strcat(Strings[c].string,extraElements);
                 strcat(Strings[c].string,">");
                 strcat(Strings[c].string, textStr);
                 strcat(Strings[c++].string, closeTag);
-                /*printf("%s\n", Strings[c-1].string);*/
+
 
                 free(textStr);
             }
             /*                              radio buttons                     */
             else if (token[1] == 'r') {
                 strcpy(secString, token);
-                /*printf("token r: %s\n", token);*/
+
                 char* actionStr = NULL;
                 char* nameStr = NULL;
 
@@ -287,11 +270,11 @@ int main(int argc, char const *argv[]) {
                         replaceAttribute(secString,nameStrIndex);
 
                     else{
-                        /*printf("welcome\n");*/
+
                         noExtraTag(secString,nameStrIndex,nameStrIndex + ((int)strlen(nameStr)) + 6);
                     }
                     char * returnedSpares = spareAttributes(secString);
-                    /*printf("spare Attributes: %s\n", returnedSpares);*/
+
                     free(returnedSpares);
                 }
                 int formPost = c;
@@ -308,11 +291,9 @@ int main(int argc, char const *argv[]) {
                     strcat(Strings[c].string,actionStr);
                     strcat(Strings[c++].string,"\" method=\"POST\" >");
                 }
-                /*printf("string to process: %s\n", secString);*/
+
                 if (strstr(secString,"value=") != NULL) {
-                    /*printf("muToken: %s\n", token);*/
-                    /*token = strtok(NULL,"p");*/
-                    /*printf("reanalyze: %s\n", secString);*/
+
                     bool firstButton = true;
                     while(strstr(secString, "value=") != NULL)
                     {
@@ -322,7 +303,7 @@ int main(int argc, char const *argv[]) {
                             replaceAttribute(secString,firstIndex);
 
                         else{
-                            /*printf("welcome\n");*/
+
                             noExtraTag(secString,firstIndex,firstIndex + ((int)strlen(valueVal)) + 7);
                         }
 
@@ -343,8 +324,7 @@ int main(int argc, char const *argv[]) {
                         free(valueVal);
 
                     }
-                    /*printf("%s\n", Strings[c-1].string);*/
-                        /*printf("spare Attributes: %s\n", returnedSpares);*/
+
                 }
                 char * returnedSpares = spareAttributes(secString);
                 char extraElements[150] = "";
@@ -386,19 +366,19 @@ int main(int argc, char const *argv[]) {
             else if (token[1] == 'd') {
                 strcpy(secString, token);
                 strcpy(Strings[c++].string,"<hr>");
-                /*printf("token d: %s\n", token);*/
+
             }
             /*          text input          */
             else if (token[1] == 't') {
                 strcpy(secString, token);
-                /*printf("token t: %s\n", token);*/
+    
 
                 if (strstr(secString,"text=") != NULL)
                 {
                     char* textStr = argReturn(secString,"text=");
 
                     strcpy(Strings[c++].string,textStr);
-                    /*strcat(Strings[c++].string,"</p>");*/
+
                     free(textStr);
                 }
                 else if (strstr(secString,"file=") != NULL)
@@ -412,11 +392,11 @@ int main(int argc, char const *argv[]) {
                         replaceAttribute(secString,fileNameStrIndex);
 
                     else{
-                        /*printf("welcome\n");*/
+
                         noExtraTag(secString,fileNameStrIndex,fileNameStrIndex + ((int)strlen(fileNamestr)) + 6);
                     }
                     char * returnedSpares = spareAttributes(secString);
-                    /*printf("spare Attributes: %s\n", returnedSpares);*/
+
                     char extraElements[150] = "";
                     strcpy(extraElements,returnedSpares);
                     free(returnedSpares);
@@ -430,9 +410,7 @@ int main(int argc, char const *argv[]) {
                             }
                         }
                     }
-                    /*strcpy(Strings[c].string,"<p ");
-                    strcat(Strings[c].string, extraElements);
-                    strcat(Strings[c].string, ">");*/
+
                     textTagFp = fopen(fileNamestr,"r");
                     if (textTagFp)
                     {
@@ -447,13 +425,9 @@ int main(int argc, char const *argv[]) {
                                 largestLine = (int)strlen(readArray);
                             }
                         }
-                        /*char ** fileContents = (char**) malloc(numLines * sizeof(char*));
-                        for (int t = 0; t < numLines; t++)
-                        {
-                            fileContents[t] = (char*) malloc((largestLine+3) * sizeof(char));
-                        }*/
+
                         fseek(textTagFp,0,SEEK_SET);
-                        /*int strCounter = 0;*/
+
                         while(fgets(readArray,255,textTagFp) != NULL)
                         {
                             if (readArray[strlen(readArray)-1] == '\n')
@@ -467,8 +441,7 @@ int main(int argc, char const *argv[]) {
                     }
                     else
                         printf("does not exist");
-                    /*strcat(Strings[c].string,"textStr");
-                    strcat(Strings[c++].string,"</p>");*/
+
                     free(fileNamestr);
                 }
                 else {
@@ -479,7 +452,7 @@ int main(int argc, char const *argv[]) {
             /*          button input            */
             else if (token[1] == 'b') {
                 strcpy(secString, token);
-                /*printf("token b: %s\n", token);*/
+
 
                 char* nameStr  = argReturn(secString,"name=");
                 char* linkStr  = argReturn(secString,"link=");
@@ -521,7 +494,7 @@ int main(int argc, char const *argv[]) {
                     noExtraTag(secString,linkStrIndex,linkStrIndex + ((int)strlen(linkStr)) + 6);
 
                 char * returnedSpares = spareAttributes(secString);
-                /*printf("spare Attributes: %s\n", returnedSpares);*/
+
                 char extraElements[150] = "";
                 strcpy(extraElements,returnedSpares);
                 free(returnedSpares);
@@ -545,9 +518,9 @@ int main(int argc, char const *argv[]) {
             /*          executable file             */
             else if (token[1] == 'e') {
                 strcpy(secString, token);
-                /*printf("token e: %s\n", token);*/
+
                 char* exeStr = argReturn(secString,"exe=");
-                /*printf("exeStr: %s\n", exeStr);*/
+
 
                 char local[30] = "./";
                 char bin[30] = "/usr/local/bin/";
@@ -582,7 +555,7 @@ int main(int argc, char const *argv[]) {
             /*          input file          */
             else if (token[1] == 'i') {
                 strcpy(secString, token);
-                /*printf("token i: %s\n", token);*/
+
 
                 char* actionStr = argReturn(secString,"action=");
                 char* textStr = NULL;
@@ -618,17 +591,17 @@ int main(int argc, char const *argv[]) {
 
                     if (strstr(secString,"bigBox") != NULL) {
                         bbIndex = indexReturn(secString,"bigBox");
-                        /*printf("indexes: text=%d bb=%d value=%d\n", textIndex,bbIndex,nameIndex);*/
+
                         if(bbIndex > textIndex && bbIndex < nameIndex)
                             bigBox = true;
-                            /*printf("big box is true\n");*/
+
                     }
 
                     strcpy(Strings[c].string, "<div><label>");
                     strcat(Strings[c].string,textStr);
                     if (bigBox == true){
                         strcat(Strings[c].string,"  <textarea rows=\"4\" cols=\"50\" name=\"");
-                        /*printf("setting textArea\n");*/
+
                     }
                     else
                         strcat(Strings[c].string,"  <input name=\"");
@@ -665,16 +638,11 @@ int main(int argc, char const *argv[]) {
                         replaceAttribute(secString,valueStrIndex);
 
                     else{
-                        /*printf("welcome\n");*/
+
                         noExtraTag(secString,valueStrIndex,valueStrIndex + ((int)strlen(valueStr)) + 7);
                     }
 
-                    /*int firstIndex = indexReturn(secString,"text=");
-                    secString[firstIndex]= '@';
-                    firstIndex = indexReturn(secString,"name=");
-                    secString[firstIndex]= '@';
-                    firstIndex = indexReturn(secString,"value=");
-                    secString[firstIndex]= '@';*/
+
                     free(textStr);
                     free(nameStr);
                     free(valueStr);
@@ -684,7 +652,7 @@ int main(int argc, char const *argv[]) {
                     replaceAttribute(secString,actionStrIndex);
 
                 else{
-                    /*printf("welcome\n");*/
+
                     noExtraTag(secString,actionStrIndex,actionStrIndex + ((int)strlen(actionStr)) + 8);
                 }
 
@@ -699,7 +667,7 @@ int main(int argc, char const *argv[]) {
                 }
 
                 char * returnedSpares = spareAttributes(secString);
-                /*printf("spare Attributes: %s\n", returnedSpares);*/
+
                 char extraElements[150] = "";
                 strcpy(extraElements,returnedSpares);
                 free(returnedSpares);
@@ -727,15 +695,12 @@ int main(int argc, char const *argv[]) {
                 }
                 free(actionStr);
 
-                /*for (int i = formPost; i < c; i++)
-                {
-                    printf("%s\n", Strings[i].string);
-                }*/
+
             }
             /*          link tag            */
             else if (token[1] == 'l') {
                 strcpy(secString, token);
-                /*printf("token l: %s\n", token);*/
+
                 char* textStr = NULL;
                 if (strstr(secString,"text=") != NULL) {
                     textStr = argReturn(secString,"text=");
@@ -763,7 +728,7 @@ int main(int argc, char const *argv[]) {
                     noExtraTag(secString,linkStrIndex,linkStrIndex + ((int)strlen(linkStr)) + 6);
 
                 char * returnedSpares = spareAttributes(secString);
-                /*printf("spare Attributes: %s\n", returnedSpares);*/
+
                 free(returnedSpares);
 
                 strcpy(Strings[c].string,"<a href=\"");
@@ -778,7 +743,7 @@ int main(int argc, char const *argv[]) {
             /*          picture tag             */
             else if (token[1] == 'p') {
                 strcpy(secString, token);
-                /*printf("token p: %s\n", token);*/
+
                 int picWidth,picHeight = 0;
                 int dimensionIndex = 0;
                 char* imageStr = argReturn(secString,"image=");
@@ -790,7 +755,7 @@ int main(int argc, char const *argv[]) {
                 char dimenstionString[30] = "";
                 char putDimension[45] = "";
                 strcpy(dimenstionString,secString+dimensionIndex);
-                /*printf("edited:%s\n", dimenstionString);*/
+
                 sscanf(dimenstionString,"%dx%d",&picWidth,&picHeight);
 
                 if (strstr(secString,"size=") != NULL) {
@@ -799,7 +764,7 @@ int main(int argc, char const *argv[]) {
                     replaceAttribute(secString,dimenstionStringIndex);
 
                     else{
-                        /*printf("welcome\n");*/
+
                         noExtraTag(secString,dimenstionStringIndex, dimenstionStringIndex + 11);
                     }
                 }
@@ -813,12 +778,12 @@ int main(int argc, char const *argv[]) {
                     replaceAttribute(secString,imageStrIndex);
 
                 else{
-                    /*printf("welcome\n");*/
+
                     noExtraTag(secString,imageStrIndex,imageStrIndex + ((int)strlen(imageStr)) + 7);
                 }
 
                 char * returnedSpares = spareAttributes(secString);
-                /*printf("spare Attributes: %s\n", returnedSpares);*/
+
                 free(returnedSpares);
 
                 strcpy(Strings[c].string,"<img src=\"");
@@ -848,8 +813,7 @@ int main(int argc, char const *argv[]) {
         printf("\nError: No file of you specified name  exists\n");
         return -1;
     }
-    /*printf("%s----------%d\n",outFileName,c);*/
-    /*fprintf(outFile, "%s\n", Strings[0].string);*/
+
     {
         int c2 = 0;
         for (c2 = 0; c2 < c ; c2++) {
@@ -857,7 +821,7 @@ int main(int argc, char const *argv[]) {
             fprintf(outFile, "%s\n", Strings[c2].string);
         }
     }
-    /*printf("total: %d\n", c);*/
+
     fclose(fp);
     fclose(outFile);
     return 0;

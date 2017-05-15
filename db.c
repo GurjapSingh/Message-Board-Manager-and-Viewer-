@@ -4,10 +4,6 @@
 #include <mysql/mysql.h>
 
 #define MAX_QUERY 512
-/*#define HOSTNAME  "dursley.socs.uoguelph.ca"
-#define USERNAME  "gurjap"
-#define PASSWORD  "0880417"
-#define DATABASE  "gurjap"*/
 
 #define HOSTNAME  ""
 #define USERNAME  "root"
@@ -22,21 +18,17 @@ int main(int argc, char const *argv[]) {
         printf("no arguments inputted\n");
     }
     else if (strcmp(argv[1],"-clear") == 0) {
-        printf("clear\n");
+        printf("Clearing the database...\n");
         MYSQL mysql;
 
         char query[512];
-        printf("1\n");
         mysql_init(&mysql);
-        printf("1.5\n");
         mysql_options(&mysql, MYSQL_READ_DEFAULT_GROUP, "db");
-        printf("1.6\n");
         if (!mysql_real_connect(&mysql, HOSTNAME, USERNAME, PASSWORD, DATABASE, 0, NULL, 0)) {
             printf("Could not connect to host.\n%s\n",mysql_error(&mysql));
             exit(1);
         }
         printf("2\n");
-        /*strcpy(query, "insert into servStreams (streamName) values('blueStream')");*/
         strcpy(query, "create table if not exists servStreams (id int not null unique primary key auto_increment, streamName char (15) unique)");
         if(mysql_query(&mysql, query)){
             printf("Could not create servStreams table!\n%s\n",mysql_error(&mysql));
@@ -76,14 +68,11 @@ int main(int argc, char const *argv[]) {
         mysql_close(&mysql);
     }
     else if (strcmp(argv[1],"-reset") == 0) {
-        printf("reset\n");
+        printf("Reseting database...\n");
         MYSQL mysql;
         char query[512];
-        printf("1\n");
         mysql_init(&mysql);
-        printf("1.5\n");
         mysql_options(&mysql, MYSQL_READ_DEFAULT_GROUP, "db");
-        printf("1.6\n");
         if (!mysql_real_connect(&mysql, HOSTNAME, USERNAME, PASSWORD, DATABASE, 0, NULL, 0)) {
             printf("Could not connect to host.\n%s\n",mysql_error(&mysql));
             exit(1);
@@ -102,7 +91,6 @@ int main(int argc, char const *argv[]) {
             }
             /*exit(1);*/
         }
-        printf("servPosts dropped\n");
         strcpy(query, "drop table if exists servStreams");
         if(mysql_query(&mysql, query)){
             printf("Could not reset streams table!\n%s\n",mysql_error(&mysql));
@@ -110,11 +98,10 @@ int main(int argc, char const *argv[]) {
         }
         else
             printf("servStreams cleared\n");
-        printf("3\n");
         mysql_close(&mysql);
     }
     else if (strcmp(argv[1],"-posts") == 0) {
-        printf("posts\n");
+        printf("Printing all posts...\n");
         MYSQL mysql;
         MYSQL_RES *res;
         MYSQL_ROW row;
@@ -125,12 +112,10 @@ int main(int argc, char const *argv[]) {
         if (!mysql_real_connect(&mysql, HOSTNAME, USERNAME, PASSWORD, DATABASE, 0, NULL, 0)) {
             printf("Could not connect to host.\n%s\n",mysql_error(&mysql));
         }
-        printf("1\n");
         strcpy(query, "select servStreams.streamName,servPosts.posterName,servPosts.dateString,servPosts.textString from servPosts inner join servStreams on servStreams.id = servPosts.streamID");
         if(mysql_query(&mysql, query)){
             printf("fail select 2.\n%s\n",mysql_error(&mysql));
         }
-        printf("2\n");
         /*
         Store results from query into res structure.
         */
@@ -155,8 +140,8 @@ int main(int argc, char const *argv[]) {
         mysql_close(&mysql);
     }
     else if (strcmp(argv[1],"-users") == 0) {
-        /*char * usrCmd = "select * from allUsers";*/
-        printf("users\n");
+
+        printf("Printing all users...\n");
         MYSQL mysql;
         MYSQL_RES *res;
         MYSQL_ROW row;
@@ -235,26 +220,23 @@ int main(int argc, char const *argv[]) {
     else if (strcmp(argv[1],"-1") == 0) { /* make stream */
         printf("make stream\n");
         MYSQL mysql;
-        /*MYSQL_RES *res;*/
-        /*MYSQL_ROW row;*/
-        /*MYSQL_FIELD *field;*/
+
         char query[512];
-        printf("1\n");
+
         mysql_init(&mysql);
-        printf("1.5\n");
+
         mysql_options(&mysql, MYSQL_READ_DEFAULT_GROUP, "db");
-        printf("1.6\n");
+
         if (!mysql_real_connect(&mysql, HOSTNAME, USERNAME, PASSWORD, DATABASE, 0, NULL, 0)) {
             printf("Could not connect to host.");
         }
-        printf("2\n");
-        /*strcpy(query, "insert into servStreams (streamName) values('blueStream')");*/
+
         strcpy(query, "drop table servStreams");
 
         if(mysql_query(&mysql, query)){
             printf("Could not create table!\n%s\n",mysql_error(&mysql));
         }
-        printf("3\n");
+
         mysql_close(&mysql);
     }
     else if (strcmp(argv[1],"-addAuthor") == 0) { /* add author */
@@ -264,14 +246,14 @@ int main(int argc, char const *argv[]) {
 
         strcpy(streamName, argv[2]);
         strcpy(userName,argv[3]);
-        /*printf("streamName: %s\nuserName: %s\n", streamName,userName);*/
+
         MYSQL mysql;
         MYSQL_RES *res;
         char query[750];
         mysql_init(&mysql);
-        /*printf("1.5\n");*/
+
         mysql_options(&mysql, MYSQL_READ_DEFAULT_GROUP, "db");
-        /*printf("1.6\n");*/
+
         if (!mysql_real_connect(&mysql, HOSTNAME, USERNAME, PASSWORD, DATABASE, 0, NULL, 0)) {
             printf("Could not connect to host.");
         }
@@ -284,9 +266,7 @@ int main(int argc, char const *argv[]) {
 
         strcpy(query, "");
         sprintf(query,"SELECT * FROM servStreams WHERE streamName = '%s'", streamName);
-        /*sprintf(query,"SELECT * FROM servStreams");*/
 
-        /*printf("query sent: %s\n", query);*/
         if(mysql_query(&mysql, query)){
             printf("error!\n%s\n",mysql_error(&mysql));
             exit(1);
@@ -299,7 +279,7 @@ int main(int argc, char const *argv[]) {
             printf("couldnt add new stream from add author\n%s\n",mysql_error(&mysql));
             exit(1);
         }
-        /*printf("fields returned: %d\n", mysql_num_fields(res));*/
+
         if (mysql_num_rows(res) == 0) {
             printf("creating new stream\n");
             strcpy(query, "");
@@ -325,7 +305,7 @@ int main(int argc, char const *argv[]) {
         }
 
 
-        /*printf("before adding\n");*/
+
         strcpy(query, "");
         sprintf(query, "insert into servAuthors(streamID,myName,lastRead) values((select id from servStreams where streamName = '%s'),'%s',0)",streamName,userName);
         if(mysql_query(&mysql, query)){
@@ -337,7 +317,7 @@ int main(int argc, char const *argv[]) {
         }
         else
             printf("User successfully added to stream");
-        /*printf("3\n");*/
+
         mysql_close(&mysql);
     }
     else if (strcmp(argv[1],"-removeAuthor") == 0){
@@ -349,22 +329,22 @@ int main(int argc, char const *argv[]) {
 
         strcpy(streamName, argv[2]);
         strcpy(userName,argv[3]);
-        /*printf("1\n");*/
+
         mysql_init(&mysql);
-        /*printf("1.5\n");*/
+
         mysql_options(&mysql, MYSQL_READ_DEFAULT_GROUP, "db");
-        /*printf("1.6\n");*/
+
         if (!mysql_real_connect(&mysql, HOSTNAME, USERNAME, PASSWORD, DATABASE, 0, NULL, 0)) {
             printf("Could not connect to host.\n%s\n",mysql_error(&mysql));
         }
-        printf("2\n");
+
 
         sprintf(query, "DELETE FROM servAuthors WHERE myName = '%s' AND streamID = (select id from servStreams where streamName = '%s')",userName,streamName);
 
        if(mysql_query(&mysql, query)){
             printf("Could not delete row from table!\n%s\n",mysql_error(&mysql));
         }
-        printf("3\n");
+
         mysql_close(&mysql);
     }
     else if (strcmp(argv[1],"-makePost") == 0) { /* add a post */
@@ -383,9 +363,9 @@ int main(int argc, char const *argv[]) {
         strcpy(textToEnter,argv[5]);
 
         mysql_init(&mysql);
-        /*printf("1.5\n");*/
+
         mysql_options(&mysql, MYSQL_READ_DEFAULT_GROUP, "db");
-        /*printf("1.6\n");*/
+
         if (!mysql_real_connect(&mysql, HOSTNAME, USERNAME, PASSWORD, DATABASE, 0, NULL, 0)) {
             printf("Could not connect to host.");
         }
@@ -430,7 +410,7 @@ int main(int argc, char const *argv[]) {
             printf("couldnt add new stream from add author\n%s\n",mysql_error(&mysql));
             exit(1);
         }
-        /*printf("fields returned: %d\n", mysql_num_fields(res));*/
+
         if (mysql_num_rows(res) == 1) {
             printf("New post will be added.\n");
             sprintf(query, "insert into servPosts(streamID,posterName,dateString,textString) values((select id from servStreams where streamName = '%s'),'%s',NOW(),'%s')", streamName,userName,textToEnter);
@@ -457,14 +437,12 @@ int main(int argc, char const *argv[]) {
             }
         }
 
-        /*if(mysql_query(&mysql, query)){
-            printf("Could not create table!");
-        }*/
+
 
         mysql_close(&mysql);
     }
     else if (strcmp(argv[1],"-subdStreams") == 0){
-        /*printf("looking for subscribed stream\n");*/
+
         MYSQL mysql;
         MYSQL_RES *res;
         MYSQL_ROW row;
@@ -473,13 +451,12 @@ int main(int argc, char const *argv[]) {
 
         char userName[40] = "";
         strcpy(userName, argv[2]);
-        /*printf("hello %s\n", userName);*/
+
         mysql_init(&mysql);
         mysql_options(&mysql, MYSQL_READ_DEFAULT_GROUP, "db");
         if (!mysql_real_connect(&mysql, HOSTNAME, USERNAME, PASSWORD, DATABASE, 0, NULL, 0)) {
             printf("Could not connect to host.");
         }
-        /*printf("username: |%s|\n",userName);*/
         sprintf(query, "select servStreams.streamName from servAuthors inner join servStreams on servStreams.id = servAuthors.streamID where myName = '%s'",userName);
         if(mysql_query(&mysql,query)){
             printf("fail select 2.\n%s\n",mysql_error(&mysql));
@@ -563,40 +540,32 @@ int main(int argc, char const *argv[]) {
         strcpy(orderMode, argv[4]);
 
         if (strcmp(streamName,"allStream") == 0 && strcmp(orderMode,"nameFirst") == 0) {
-            /*printf("viewing all in namefirst\n");*/
             strcpy(query,"");
             sprintf(query, "select servStreams.streamName,servPosts.posterName,servPosts.dateString,servPosts.textString from servPosts inner join servStreams on servStreams.id = servPosts.streamID where streamID in (select streamID from servAuthors where myName = '%s') order by posterName",userName);
         }
         else if (strcmp(streamName,"allStream") == 0 && strcmp(orderMode,"dateFirst") == 0) {
-            /*printf("viewing all in dateFirst\n");*/
             strcpy(query,"");
             sprintf(query, "select servStreams.streamName,servPosts.posterName,servPosts.dateString,servPosts.textString from servPosts inner join servStreams on servStreams.id = servPosts.streamID where streamID in (select streamID from servAuthors where myName = '%s') order by dateString",userName);
 
         }
         else if (strcmp(streamName,"allStream") != 0 && strcmp(orderMode,"nameFirst") == 0) {
-            /*printf("viewing a stream in nameFirst\n");*/
             sprintf(query, "select servStreams.streamName,servPosts.posterName,servPosts.dateString,servPosts.textString from servPosts inner join servStreams on servStreams.id = servPosts.streamID where streamID = (select id from servStreams where streamName = '%s') order by posterName",streamName);
         }
         else if (strcmp(streamName,"allStream") != 0 && strcmp(orderMode,"dateFirst") == 0) {
-            /*printf("viewing a stream in dateFirst\n");*/
             sprintf(query, "select servStreams.streamName,servPosts.posterName,servPosts.dateString,servPosts.textString from servPosts inner join servStreams on servStreams.id = servPosts.streamID where streamID = (select id from servStreams where streamName = '%s') order by dateString",streamName);
         }
         else
             printf("i have no idea man\n");
 
-        /*return 0;*/
         mysql_init(&mysql);
         mysql_options(&mysql, MYSQL_READ_DEFAULT_GROUP, "db");
         if (!mysql_real_connect(&mysql, HOSTNAME, USERNAME, PASSWORD, DATABASE, 0, NULL, 0)) {
             printf("Could not connect to host.\n%s\n",mysql_error(&mysql));
         }
-        /*printf("1\n");
-        below is for all
-        strcpy(query, "select servStreams.streamName,servPosts.posterName,servPosts.dateString,servPosts.textString from servPosts inner join servStreams on servStreams.id = servPosts.streamID");*/
-        if(mysql_query(&mysql, query)){
+       if(mysql_query(&mysql, query)){
             printf("fail select 2.\n%s\n",mysql_error(&mysql));
         }
-        /*printf("2\n");*/
+
         /*
         Store results from query into res structure.
         */
@@ -608,9 +577,7 @@ int main(int argc, char const *argv[]) {
             print all results
             */
             while ((row = mysql_fetch_row(res))) {
-                /*for (i=0; i < mysql_num_fields(res); i++){
-                printf("%s\n", row[i]);
-                }*/
+
                 printf("Stream: %s\n",row[0]);
                 printf("Sender: %s\n", row[1]);
                 printf("Date: %s\n", row[2]);
@@ -619,7 +586,7 @@ int main(int argc, char const *argv[]) {
 
         }
 
-        /*printf("3\n");*/
+
         mysql_close(&mysql);
     }
     else if (strcmp(argv[1],"-incrPost") == 0){
@@ -632,22 +599,17 @@ int main(int argc, char const *argv[]) {
 
         strcpy(streamName, argv[2]);
         strcpy(userName,argv[3]);
-        /*printf("1\n");*/
         mysql_init(&mysql);
-        /*printf("1.5\n");*/
         mysql_options(&mysql, MYSQL_READ_DEFAULT_GROUP, "db");
-        /*printf("1.6\n");*/
         if (!mysql_real_connect(&mysql, HOSTNAME, USERNAME, PASSWORD, DATABASE, 0, NULL, 0)) {
             printf("Could not connect to host.\n%s\n",mysql_error(&mysql));
         }
-        printf("2\n");
 
         sprintf(query, "update servAuthors set lastRead = lastRead + 1 where streamID = (select id from servStreams where streamName = '%s') and myName = '%s'",streamName,userName);
 
        if(mysql_query(&mysql, query)){
             printf("Could not increment row from table!\n%s\n",mysql_error(&mysql));
         }
-        printf("3\n");
         mysql_close(&mysql);
     }
     else if (strcmp(argv[1], "-allInc") == 0) {
@@ -659,22 +621,17 @@ int main(int argc, char const *argv[]) {
 
         strcpy(streamName, argv[2]);
         strcpy(userName,argv[3]);
-        /*printf("1\n");*/
         mysql_init(&mysql);
-        /*printf("1.5\n");*/
         mysql_options(&mysql, MYSQL_READ_DEFAULT_GROUP, "db");
-        /*printf("1.6\n");*/
         if (!mysql_real_connect(&mysql, HOSTNAME, USERNAME, PASSWORD, DATABASE, 0, NULL, 0)) {
             printf("Could not connect to host.\n%s\n",mysql_error(&mysql));
         }
-        printf("2\n");
 
         sprintf(query, "update servAuthors set lastRead = (select count(*) from servPosts where streamID = (select id from servStreams where streamName = '%s')) where streamID = (select id from servStreams where streamName = '%s') and myName = '%s';",streamName,streamName,userName);
 
        if(mysql_query(&mysql, query)){
             printf("Could not mark all as read from table!\n%s\n",mysql_error(&mysql));
         }
-        printf("3\n");
         mysql_close(&mysql);
     }
     else if (strcmp(argv[1], "-help") == 0){
