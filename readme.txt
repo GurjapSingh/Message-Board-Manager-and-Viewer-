@@ -69,4 +69,3 @@ Notes
 - ./db -users will return all the authors and what stream they are subscribed to. there will be duplicates if a user is subscribed to more than one stream
 
 - if you would like to input double quotes, you must use escape and double quote. ie if you want < hi my name is "jim"> you have to do < hi my name is \"jim\">
-- i had a last minute bug where in viewing all stream mode, the posts read for the user in the stream of the post you were viewing kept going up so i changed it that hte posts read count will not increment if viewing all streams.
